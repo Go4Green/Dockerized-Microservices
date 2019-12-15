@@ -1,0 +1,1 @@
+curl -X GET http://localhost:5000/incidents/pending -H "Content-Type: application/json"

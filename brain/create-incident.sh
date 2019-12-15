@@ -1,0 +1,1 @@
+curl -d @data.json -X POST http://localhost:5000/citizens/34710ea4-1f24-11ea-9712-0242ac110002/incidents -H "Content-Type: application/json"

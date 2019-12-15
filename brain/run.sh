@@ -1,0 +1,1 @@
+docker run -it -p 5000:5000 -v /Users/jim/hackathon/brain/:/app hackathon python3 application.py

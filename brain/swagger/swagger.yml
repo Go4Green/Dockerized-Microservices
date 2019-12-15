@@ -1,0 +1,202 @@
+swagger: "2.0"
+info:
+  description: The brain of dockerized microservices
+  title: brain
+  version: "1.0.0"
+basePath: /
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /:
+    get:
+      tags:
+        - System
+      operationId: application.System.index
+      description: project information
+      responses:
+        200:
+          description: OK
+        500:
+          description: Internal server error
+
+  /citizens/{uid}:
+    get:
+      tags:
+        - Citizens
+      operationId: application.Citizens.get
+      parameters:
+        - in: path
+          name: uid
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+        500:
+          description: Internal server error
+
+  /citizens/{uid}/ecoPoints:
+    get:
+      tags:
+        - Citizens
+      operationId: application.Citizens.get_eco_points
+      parameters:
+        - in: path
+          name: uid
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+        500:
+          description: Internal server error
+
+  /citizens/{uid}/incidents:
+    get:
+      tags:
+        - Citizens
+      operationId: application.Citizens.get_incidents
+      description: Returns the incidents declared by the citizen
+      parameters:
+        - in: path
+          name: uid
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+        500:
+          description: Internal server error
+    post:
+      tags:
+        - Citizens
+      operationId: application.Citizens.declare_incident
+      description: Declare new incident
+      parameters:
+        - in: path
+          name: uid
+          type: string
+          required: true
+        - in: body
+          name: incident
+          schema:
+            $ref: "#/definitions/Incident"
+      responses:
+        200:
+          description: OK
+        500:
+          description: Internal server error
+
+  /incidents/{uid}:
+    get:
+      tags:
+        - Incidents
+      operationId: application.Incidents.get
+      parameters:
+        - in: path
+          name: uid
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+        500:
+          description: Internal server error
+
+  /incidents/{uid}/decline:
+    post:
+      tags:
+        - Incidents
+      operationId: application.Incidents.decline
+      parameters:
+        - in: path
+          name: uid
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+        500:
+          description: Internal server error
+
+  /incidents/{uid}/approve:
+    post:
+      tags:
+        - Incidents
+      operationId: application.Incidents.approve
+      parameters:
+        - in: path
+          name: uid
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+        500:
+          description: Internal server error
+
+  /incidents/pending:
+    get:
+      tags:
+        - Incidents
+      operationId: application.Incidents.get_pending_incidents
+      responses:
+        200:
+          description: OK
+        500:
+          description: Internal server error
+
+
+definitions:
+
+  Incident:
+    type: object
+    properties:
+      uid:
+        type: string
+      citizenUid:
+        type: string
+      timestamp:
+        type: integer
+        format: int64
+      snap:
+        type: string
+        description: The base64 string of the image
+      lat:
+        type: number
+        format: double
+      lng:
+        type: number
+        format: double
+      description:
+        type: string
+      category:
+        type: string
+      status:
+        type: string
+      address:
+        type: string
+    required:
+      - timestamp
+      - snap
+      - lat
+      - lng
+      - category
+
+  Citizen:
+    type: object
+    properties:
+      uid:
+        type: string
+      socialSecurityNumber:
+        type: integer
+        format: int64
+      name:
+        type: string
+      surname:
+        type: string
+      ecoPoints:
+        type: integer
+        format: int64
